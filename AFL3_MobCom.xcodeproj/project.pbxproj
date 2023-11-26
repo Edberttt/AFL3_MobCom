@@ -15,6 +15,7 @@
 		04B9D3DC2B110399006DCC72 /* AFL3_MobComTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D3DB2B110399006DCC72 /* AFL3_MobComTests.swift */; };
 		04B9D3E62B110399006DCC72 /* AFL3_MobComUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D3E52B110399006DCC72 /* AFL3_MobComUITests.swift */; };
 		04B9D3E82B110399006DCC72 /* AFL3_MobComUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9D3E72B110399006DCC72 /* AFL3_MobComUITestsLaunchTests.swift */; };
+		04DE14372B13BF6900D1BA9B /* addFriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE14362B13BF6900D1BA9B /* addFriendView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		04B9D3E12B110399006DCC72 /* AFL3_MobComUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AFL3_MobComUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B9D3E52B110399006DCC72 /* AFL3_MobComUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFL3_MobComUITests.swift; sourceTree = "<group>"; };
 		04B9D3E72B110399006DCC72 /* AFL3_MobComUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AFL3_MobComUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		04DE14362B13BF6900D1BA9B /* addFriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addFriendView.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 			children = (
 				04B9D3CA2B110396006DCC72 /* AFL3_MobComApp.swift */,
 				04B9D3CC2B110396006DCC72 /* ContentView.swift */,
+				04DE14362B13BF6900D1BA9B /* addFriendView.swift */,
 				04885AD22B11B16600F78945 /* friendDetails.swift */,
 				04B9D3CE2B110399006DCC72 /* Assets.xcassets */,
 				04B9D3D02B110399006DCC72 /* Preview Content */,
@@ -262,6 +265,7 @@
 			files = (
 				04B9D3CD2B110396006DCC72 /* ContentView.swift in Sources */,
 				04B9D3CB2B110396006DCC72 /* AFL3_MobComApp.swift in Sources */,
+				04DE14372B13BF6900D1BA9B /* addFriendView.swift in Sources */,
 				04885AD32B11B16600F78945 /* friendDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
