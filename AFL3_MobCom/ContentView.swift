@@ -7,40 +7,29 @@
 
 import SwiftUI
 
-struct Friend {
+struct DummyFriend2 {
     var name: String
-    var owe: String
-    var amount: String
+    var owe : String
+    var amount : String
 }
 
 struct ContentView:View {
     @State private var isAddViewPresented = false
     @State private var isFriendDetailPresented = false
-    
+    @State private var friends: [Friend] = []
+
     var body: some View {
         
-        let friends = [
-            Friend(name: "Friend 1", owe: "You Owe:", amount: "25000"),
-            Friend(name: "Friend 2", owe: "You Pay:", amount: "20000"),
-            Friend(name: "Friend 3", owe: "You Owe:", amount: "20000"),
-            Friend(name: "Friend 4", owe: "You Pay:", amount: "25000"),
-            Friend(name: "Friend 5", owe: "You Owe:", amount: "25000"),
-            Friend(name: "Friend 6", owe: "You Owe:", amount: "25000"),
-            Friend(name: "Friend 7", owe: "You Owe:", amount: "25000"),
-            Friend(name: "Friend 8", owe: "You Owe:", amount: "25000"),
-            Friend(name: "Friend 9", owe: "You Owe:", amount: "25000"),
-            Friend(name: "Friend 10", owe: "You Owe:", amount: "25000"),
-        ]
-        
-        let totalYouOwe = friends.reduce(0) { total, friend in
-            total + (friend.owe == "You Owe:" ? Int(friend.amount) ?? 0 : 0)
-        }
 
-        let totalFriendsOwe = friends.reduce(0) { total, friend in
-            total + (friend.owe == "You Pay:" ? Int(friend.amount) ?? 0 : 0)
-        }
-        
-        let totalFriendsYouOwe = friends.filter { $0.owe == "You Owe:" }.count
+//        let totalYouOwe = Dummyfriendss.reduce(0) { total, friend in
+//            total + (friend.owe == "You Owe:" ? Int(friend.amount) ?? 0 : 0)
+//        }
+//        
+//        let totalFriendsOwe = Dummyfriendss.reduce(0) { total, friend in
+//            total + (friend.owe == "You Pay:" ? Int(friend.amount) ?? 0 : 0)
+//        }
+//        
+//        let totalFriendsYouOwe = Dummyfriendss.filter { $0.owe == "You Owe:" }.count
         
         ZStack() {
             Group {
@@ -56,11 +45,16 @@ struct ContentView:View {
                         .foregroundColor(Color(red: 0.56, green: 0.54, blue: 0.54).opacity(0.90))
                         .offset(x: -59, y: -26.50)
                     
-                    Text("IDR \(totalYouOwe)")
+//                    Text("IDR \(totalYouOwe)")
+//                        .font(Font.custom("Open Sans", size: 36).weight(.semibold))
+//                        .foregroundColor(.black)
+//                        .offset(x: -13, y: 12)
+                    
+                    Text("IDR 0")
                         .font(Font.custom("Open Sans", size: 36).weight(.semibold))
                         .foregroundColor(.black)
                         .offset(x: -13, y: 12)
-
+                    
                     
                 }
                 .offset(x: -37, y: -294.50)
@@ -69,8 +63,12 @@ struct ContentView:View {
                         .font(Font.custom("Open Sans", size: 13).weight(.semibold))
                         .foregroundColor(Color(red: 0.56, green: 0.54, blue: 0.54).opacity(0.90))
                         .offset(x: 0, y: -16.50)
-
-                    Text("\(totalFriendsYouOwe)")
+                    
+//                    Text("\(totalFriendsYouOwe)")
+//                        .font(Font.custom("Open Sans", size: 20).weight(.semibold))
+//                        .foregroundColor(.black)
+//                        .offset(x: 0, y: 12)
+                    Text("0")
                         .font(Font.custom("Open Sans", size: 20).weight(.semibold))
                         .foregroundColor(.black)
                         .offset(x: 0, y: 12)
@@ -83,7 +81,11 @@ struct ContentView:View {
                         .foregroundColor(Color(red: 0.56, green: 0.54, blue: 0.54).opacity(0.90))
                         .offset(x: 0, y: -16.50)
                     
-                    Text("IDR \(totalFriendsOwe)")
+//                    Text("IDR \(totalFriendsOwe)")
+//                        .font(Font.custom("Open Sans", size: 20).weight(.semibold))
+//                        .foregroundColor(.black)
+//                        .offset(x: -9.50, y: 12)
+                    Text("IDR 0")
                         .font(Font.custom("Open Sans", size: 20).weight(.semibold))
                         .foregroundColor(.black)
                         .offset(x: -9.50, y: 12)
@@ -124,76 +126,130 @@ struct ContentView:View {
                             .padding(.leading, 15) // Increase leading padding
                     }
                     
-                    
-                    
                 }
                 .frame(width: 364, height: 38)
                 .offset(x: 0, y: -79)
                 
-                
-                VStack{
-                    ScrollView{
-                        VStack {
-                            ForEach(friends, id: \.name) { friend in
-                                ZStack {
-                                    
-                                    Text(friend.name)
-                                        .font(Font.custom("Open Sans", size: 15).weight(.semibold))
-                                        .foregroundColor(.white)
-                                        .offset(x: -50, y: 0.50)
-                                    
-                                    VStack {
-                                        Text(friend.owe)
-                                            .font(Font.custom("PT Sans", size: 10))
-                                            .foregroundColor(friend.owe == "You Owe:" ? Color(red: 0.91, green: 0.14, blue: 0.14) : Color(red: 0.14, green: 0.70, blue: 0.09))
-                                        Text("IDR \(friend.amount)")
-                                            .font(Font.custom("PT Sans", size: 10))
-                                            .foregroundColor(friend.owe == "You Owe:" ? Color(red: 0.91, green: 0.14, blue: 0.14) : Color(red: 0.14, green: 0.70, blue: 0.09))
-                                    }
-                                    .offset(x: 80, y: 0.50)
-                                }
-                                .frame(width: 355, height: 58)
-        //                        .padding(.bottom)
-                            }
-                        }
-                    }
-                    .frame(width:400, height: 580, alignment: .center)
-                }
-                .offset(x: 20, y: 250)
-                .frame(width:500, height: 580, alignment: .center)
-                
             }
+
+//            ScrollView{
+//                LazyVStack(alignment: .leading) {
+//                    ForEach(friends, id: \.name) { friend in
+//                        VStack{
+//                            HStack{
+//                                Image("emoji\(friend.avatar)")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fill)
+//                                    .frame(width: 80, height: 80)
+//                                    .clipShape(Circle())
+//                                
+//                                    .onTapGesture{
+//                                        isFriendDetailPresented = true
+//                                    }
+//                                    .sheet(isPresented: $isFriendDetailPresented) {
+//                                        FriendDetails()
+//                                    }
+//                                
+//                                Text(friend.name)
+//                                    .font(Font.custom("Open Sans", size: 20).weight(.semibold))
+//                                    .foregroundColor(.white)
+//                                    .padding(.vertical, 8)
+//                                
+//                                
+//                                    .onTapGesture{
+//                                        isFriendDetailPresented = true
+//                                    }
+//                                    .sheet(isPresented: $isFriendDetailPresented) {
+//                                        FriendDetails()
+//                                    }
+//                                
+//                            }
+//                            
+//                        }
+//                        Divider().background(Color.gray)
+//                    }
+//                }
+//            } .padding(.top, 600)
             
-            Rectangle()
-                .foregroundColor(.clear)
-                .frame(width: 32.03, height: 31)
-                .background(
-                    AsyncImage(url: URL(string: "https://via.placeholder.com/32x31"))
-                )
-                .offset(x: -148.98, y: 14.50)
-            Rectangle()
-                .foregroundColor(.clear)
-                .frame(width: 30, height: 31.20)
-                .background(
-                    AsyncImage(url: URL(string: "https://via.placeholder.com/30x31"))
-                )
-                .offset(x: -149, y: 90.60)
-            Rectangle()
-                .foregroundColor(.clear)
-                .frame(width: 35, height: 35)
-                .background(
-                    AsyncImage(url: URL(string: "https://via.placeholder.com/35x35"))
-                )
-                .offset(x: -150.50, y: 167.50)
-            Rectangle()
-                .foregroundColor(.clear)
-                .frame(width: 40, height: 60.74)
-                .background(
-                    AsyncImage(url: URL(string: "https://via.placeholder.com/40x61"))
-                )
-                .offset(x: -148, y: 247.37)
-                    
-                    
+            VStack{
+                ScrollView{
+                    VStack {
+                        ZStack {
+                            LazyVStack(alignment: .leading) {
+//                                ForEach(friends, id: \.name) { friend in
+                                ForEach(friends.indices, id: \.self) { index in
+                                    let friend = friends[index]
+                                    VStack{
+                                        HStack{
+                                            Image("emoji\(friend.avatar)")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: 80, height: 80)
+                                                .clipShape(Circle())
+                                            
+                                                .onTapGesture {
+                                                    friends[index].isDetailPresented.toggle()
+                                                }
+                                                .sheet(isPresented: $friends[index].isDetailPresented){
+                                                    FriendDetails(name: friend.name, avatar: "emoji\(friend.avatar)")
+                                                }
+                                            
+                                            
+                                            Text(friend.name)
+                                                .font(Font.custom("Open Sans", size: 20).weight(.semibold))
+                                                .foregroundColor(.white)
+                                                .padding(.vertical, 8)
+                                            
+                                                .onTapGesture {
+                                                    friends[index].isDetailPresented.toggle()
+                                                }
+                                                .sheet(isPresented: $friends[index].isDetailPresented){
+                                                    FriendDetails(name: friend.name, avatar: "emoji\(friend.avatar)")
+                                                }
+                                            
+//                                                .onTapGesture{
+//                                                    isFriendDetailPresented = true
+//                                                }
+//                                                .sheet(isPresented: $isFriendDetailPresented) {
+////                                                    FriendDetails()
+//                                                    FriendDetails(name: friend.name, avatar: "emoji\(friend.avatar)")
+//                                                }
+                                            
+                                        }
+                                        .padding()
+                                        
+                                    }
+                                    Divider().background(Color.gray)
+                                }
+                                .frame(width : .infinity, height:.infinity)
+                                
+                                
+                            }
+                            
+//                            ForEach(Dummyfriendss, id: \.name) {friend in
+//                                VStack {
+//                                    Text(friend.owe)
+//                                        .font(Font.custom("PT Sans", size: 10))
+//                                        .foregroundColor(friend.owe == "You Owe:" ? Color(red: 0.91, green: 0.14, blue: 0.14) : Color(red: 0.14, green: 0.70, blue: 0.09))
+//                                    Text("IDR \(friend.amount)")
+//                                        .font(Font.custom("PT Sans", size: 10))
+//                                        .foregroundColor(friend.owe == "You Owe:" ? Color(red: 0.91, green: 0.14, blue: 0.14) : Color(red: 0.14, green: 0.70, blue: 0.09))
+//                                }
+//                                .offset(x: 80, y: 0.50)
+//                            }
+                        }
+                        .frame(width: .infinity, height: .infinity)
+                        //                        .padding(.bottom)
+                        //                            }
+                    }
+                }
+                .frame(width:400, height: 580, alignment: .leading)
+            }
+            .frame(width:300, height: .infinity)
+            .padding(.top, 500)
+            
+
+            
             Text("+ Add New Friend")
                 .font(Font.custom("Open Sans", size: 15).weight(.semibold))
                 .foregroundColor(Color(red: 0.51, green: 0.39, blue: 0.85))
@@ -202,16 +258,16 @@ struct ContentView:View {
                     isAddViewPresented = true
                 }
                 .sheet(isPresented: $isAddViewPresented) {
-                    friendDetails() // Ganti dengan nama Viewnya dsini
+                    AddFriendView(friends: $friends)
                 }
-                
-                
-            }
-            .frame(width: 430, height: 932)
-            .background(.white)
-            .padding(.top, 100)
+            
         }
-        
+        .frame(width: 430, height: 1200)
+        .background(.white)
+        .padding(.top, 100)
+    }
+    
+    
 }
 
 

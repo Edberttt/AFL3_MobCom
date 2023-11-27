@@ -14,11 +14,14 @@ struct Activity: Identifiable, Hashable {
 
 import SwiftUI
 
-struct friendDetails: View {
+struct FriendDetails: View {
     @State private var activities: [Activity] = []
     @State private var totalRedPrice: Double = 0
     @State private var totalGreenPrice: Double = 0
     @State private var showAddActivityPopup = false
+    
+    var name: String
+    var avatar: String
     
     var body: some View {
         ZStack {
@@ -32,12 +35,36 @@ struct friendDetails: View {
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading)
-                Image(systemName: "person.circle")
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 20)
+//                HStack{
+//                    Image(systemName: "person.circle")
+//                        .resizable()
+//                        .frame(width: 50, height: 50)
+//                        .padding()
+//                        .frame(maxWidth: .infinity, alignment: .leading)
+//                        .padding(.leading, 20)
+//                    
+//                    Text("Test")
+//                        .font(Font.custom("Open Sans", size: 20).weight(.semibold))
+//                        .frame(width: 50, height: 50)
+//                        .frame(maxWidth: .infinity, alignment: .leading)
+//                        .offset(x: -100, y: 0)
+//                }
+
+                HStack{
+                    Image(avatar)
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 20)
+                    
+                    Text(name)
+                        .font(Font.custom("Open Sans", size: 20).weight(.semibold))
+                        .frame(width: 50, height: 50)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .offset(x: -100, y: 0)
+                }
+                
                 VStack(alignment: .leading) {
                     Text("You \(calculateAmountOwed() >= 0 ? "Pay" : "Owe"):")
                         .font(.system(size: 18))
@@ -277,9 +304,15 @@ extension Color {
 
 
 
+//struct friendDetails_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FriendDetails()
+//    }
+//    
+//}
 struct friendDetails_Previews: PreviewProvider {
     static var previews: some View {
-        friendDetails()
+        FriendDetails(name: "Test Name", avatar: "Test Avatar")
     }
 }
 
