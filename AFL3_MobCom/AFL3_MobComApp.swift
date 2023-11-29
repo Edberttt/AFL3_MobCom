@@ -7,11 +7,27 @@
 
 import SwiftUI
 
+//@main
+//struct AFL3_MobComApp: App {
+//    var body: some Scene {
+//        WindowGroup {
+//            ContentView()
+//        }
+//    }
+//}
+
+class FriendsData: ObservableObject {
+    @Published var friends: [Friend] = []
+}
+
 @main
-struct AFL3_MobComApp: App {
+struct AFL3App: App {
+    @StateObject private var friendsData = FriendsData()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(friendsData)
         }
     }
 }

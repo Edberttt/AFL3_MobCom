@@ -29,6 +29,9 @@ struct Friend: Identifiable {
     var amount = 0
     var owe = "you Pay"
     var isDetailPresented = false
+    var activities: [Activity]
+    var totalRedPrice: Double
+    var totalGreenPrice: Double
 }
 
 
@@ -48,6 +51,7 @@ struct AddFriendView: View {
 //    @State private var shouldDismissView = false
     @Binding var friends: [Friend]
 //    @Binding var shouldDismissView: Bool
+    @EnvironmentObject var friendsData: FriendsData
     @Environment(\.presentationMode) var presentationMode
     
     @State private var alertType: AlertType = .none
@@ -148,8 +152,10 @@ struct AddFriendView: View {
 
                     Button(action: {
                         if isAllInputSelected {
-                            let newFriend = Friend(name: textFieldText, frequency: selectedFrequency, avatar: selectedEmoji!)
-                            friends.append(newFriend)
+//                            let newFriend = Friend(name: textFieldText, frequency: selectedFrequency, avatar: selectedEmoji!)
+                            let newFriend = Friend(name: textFieldText, frequency: selectedFrequency, avatar: selectedEmoji!, activities: [], totalRedPrice:0, totalGreenPrice:0)
+//                            friends.append(newFriend)
+                            friendsData.friends.append(newFriend)
                             alertType = .success
                             showAlert = true
 //                            shouldDismissView = true

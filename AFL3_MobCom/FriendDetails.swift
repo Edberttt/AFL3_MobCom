@@ -15,13 +15,16 @@ struct Activity: Identifiable, Hashable {
 import SwiftUI
 
 struct FriendDetails: View {
-    @State private var activities: [Activity] = []
+//    @State private var activities: [Activity] = []
     @State private var totalRedPrice: Double = 0
     @State private var totalGreenPrice: Double = 0
     @State private var showAddActivityPopup = false
+    @EnvironmentObject var friendsData: FriendsData
     
-    var name: String
-    var avatar: String
+    var friend: Friend
+    init(friend: Friend) {
+            self.friend = friend
+        }
     
     var body: some View {
         ZStack {
@@ -51,14 +54,14 @@ struct FriendDetails: View {
 //                }
 
                 HStack{
-                    Image(avatar)
+                    Image("emoji\(friend.avatar)")
                         .resizable()
                         .frame(width: 50, height: 50)
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 20)
                     
-                    Text(name)
+                    Text(friend.name)
                         .font(Font.custom("Open Sans", size: 20).weight(.semibold))
                         .frame(width: 50, height: 50)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -89,7 +92,7 @@ struct FriendDetails: View {
                     .padding(.leading, 35)
                 
                 // Display the details of each activity
-                ForEach(activities, id: \.id) { activity in
+                ForEach(friend.activities, id: \.id) { activity in
                     HStack {
                         Text(activity.name)
                             .foregroundColor(.black)
@@ -133,23 +136,27 @@ struct FriendDetails: View {
     }
     
     func calculateAmountOwed() -> Double {
-        let amountOwed = (totalRedPrice - totalGreenPrice)/2
+        let amountOwed = (friend.totalRedPrice - friend.totalGreenPrice)/2
         return amountOwed
     }
 
-    
     func addActivity(activity: Activity) {
-        activities.append(activity)
-        
-        // Update totalRedPrice and totalGreenPrice based on the new activity
-        if activity.isPaying {
-            // Friend pays for you (Red Price)
-            totalRedPrice += abs(activity.price)
-        } else {
-            // You pay for friend (Green Price)
-            totalGreenPrice += abs(activity.price)
+        if let index = friendsData.friends.firstIndex(where: { $0.id == friend.id }) {
+            // Update totalRedPrice and totalGreenPrice based on the new activity
+            if activity.isPaying {
+                // Friend pays for you (Red Price)
+                friendsData.friends[index].totalRedPrice += abs(activity.price)
+            } else {
+                // You pay for friend (Green Price)
+                friendsData.friends[index].totalGreenPrice += abs(activity.price)
+            }
+
+            friendsData.friends[index].activities.append(activity)
         }
     }
+    
+    
+    
 }
 struct RadioButtonView: View {
     var isSelected: Bool
@@ -310,9 +317,15 @@ extension Color {
 //    }
 //    
 //}
+//struct friendDetails_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FriendDetails(name: "Test Name", avatar: "Test Avatar", activities: [])
+//    }
+//}
+
 struct friendDetails_Previews: PreviewProvider {
     static var previews: some View {
-        FriendDetails(name: "Test Name", avatar: "Test Avatar")
+        FriendDetails(friend: Friend(name: "Test Name",frequency: "Test F", avatar: 0, activities: [], totalRedPrice: 0, totalGreenPrice: 0))
     }
 }
 
