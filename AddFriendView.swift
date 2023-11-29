@@ -73,7 +73,7 @@ struct AddFriendView: View {
             Color("051329")
                 .ignoresSafeArea()
             
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 35) {
                 HStack(spacing: 20) {
                     Image(systemName: "arrowshape.turn.up.backward.circle")
                         .font(.title)
@@ -93,37 +93,55 @@ struct AddFriendView: View {
                     Text("Friend Name :")
                         .foregroundColor(.white)
                         .font(.headline)
-                        .padding(.bottom)
+                        .padding(.bottom, 0)
                         .padding(.horizontal)
                     
-                    TextField("Enter friend's name", text: $textFieldText)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .cornerRadius(12)
-                        .padding(.bottom)
-                        .padding(.horizontal)
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 20)
+                            .foregroundColor(Color.white)
+                            .shadow(radius: 2)
+                            .frame(width: 350, height: 35)
+                            .padding(.leading, 20)
+                        
+                        TextField("Enter friend's name", text: $textFieldText)
+                            .padding(.vertical, 10)
+                            .padding(.leading, 35)
+                    }.padding(.bottom,15)
+//                    TextField("Enter friend's name", text: $textFieldText)
+//                        .textFieldStyle(RoundedBorderTextFieldStyle())
+//                        .cornerRadius(15)
+//                        .padding(.bottom)
+//                        .padding(.horizontal,10)
+//                        .padding(.leading,15)
                     
                     Text("Transaction Frequency :")
                         .foregroundColor(.white)
                         .font(.headline)
-                        .padding(.bottom)
+                        .padding(.bottom,0)
                         .padding(.horizontal)
                     
-                    Picker(selection: $selectedFrequency, label: Text("Transaction Frequency :")) {
-                        ForEach(frequencyOptions, id: \.self) { option in
-                            Text(option)
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 20)
+                            .foregroundColor(Color.white)
+                            .shadow(radius: 2)
+                            .frame(width: 350, height: 35)
+                            .padding(.leading, 20)
+                        
+                        Picker(selection: $selectedFrequency, label: Text("Transaction Frequency :")) {
+                            ForEach(frequencyOptions, id: \.self) { option in
+                                Text(option)
+                            }
                         }
-                    }
-                    .pickerStyle(MenuPickerStyle())
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal)
-                    .background(RoundedRectangle(cornerRadius: 12).fill(Color.white))
-                    .padding(.bottom,20)
-                    .padding(.horizontal)
+                        .pickerStyle(MenuPickerStyle())
+                        .padding(.leading,35)
+                    }.padding(.bottom,20)
+                    
+                    
                     
                     Text("Choose Your Friend's Avatar : ")
                         .font(.headline)
                         .foregroundColor(.white)
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 10)
                         .padding(.horizontal)
 
                     LazyVGrid(columns: Array(repeating: GridItem(), count: 3), spacing: 8) {
