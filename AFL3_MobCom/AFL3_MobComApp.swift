@@ -16,8 +16,28 @@ import SwiftUI
 //    }
 //}
 
+//class FriendsData: ObservableObject {
+////    @Published var friends: [Friend] = []
+//    
+//    @Published var friends: [Friend]
+//
+//        // Other code...
+//
+//        func removeFriend(at index: Int) {
+//            friends.remove(at: index)
+//        }
+//}
+
 class FriendsData: ObservableObject {
-    @Published var friends: [Friend] = []
+    @Published var friends: [Friend]
+
+    init() {
+        friends = [] // Add your initial data here
+    }
+
+    func removeFriend(at index: Int) {
+        friends.remove(at: index)
+    }
 }
 
 @main

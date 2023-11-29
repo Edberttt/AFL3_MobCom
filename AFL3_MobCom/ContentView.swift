@@ -149,6 +149,15 @@ struct ContentView:View {
                                     let amountOwed = (friend.totalRedPrice - friend.totalGreenPrice) / 2
                                     VStack{
                                         HStack{
+                                            Button(action: {
+                                                withAnimation {
+                                                    friendsData.removeFriend(at: index)
+                                                }
+                                            }) {
+                                                Image(systemName: "trash")
+                                                    .foregroundColor(.red)
+                                            }
+                                        
                                             Image("emoji\(friend.avatar)") // Make sure you have images named like "emoji1", "emoji2", etc.
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fill)
@@ -223,6 +232,9 @@ struct ContentView:View {
         .padding(.top, 100)
     }
     
+    func deleteFriend(at offsets: IndexSet) {
+        friendsData.friends.remove(atOffsets: offsets)
+    }
     
 }
 
