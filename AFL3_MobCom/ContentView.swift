@@ -18,6 +18,7 @@ struct ContentView:View {
     @State private var isFriendDetailPresented = false
     @State private var friends: [Friend] = []
     
+    @State private var searchText = ""
     @EnvironmentObject var friendsData: FriendsData
     
     var countTotalFriendsYouOwe: Int {
@@ -106,10 +107,18 @@ struct ContentView:View {
                         .background(Color(red: 0.51, green: 0.38, blue: 0.85))
                         .cornerRadius(20)
                         .offset(x: 0, y: 0)
+                    
                     ZStack() {
-                        Text("Search")
+//                        TextField("Search", text: $searchText)
+//                            .font(Font.custom("Open Sans", size: 16))
+//                            .foregroundColor(.white)
+//                            .padding(.leading, 15)
+//                            .offset(x: 14, y: 0)
+//                            .placeholder.foregroundColor(.white)
+                        CustomTextField(text: $searchText, placeholder: Text("Search").foregroundColor(.white))
                             .font(Font.custom("Open Sans", size: 16))
                             .foregroundColor(.white)
+                            .padding(.leading, 15)
                             .offset(x: 14, y: 0)
                     }
                     .frame(width: 99, height: 28)
@@ -134,7 +143,8 @@ struct ContentView:View {
                         ZStack {
                             LazyVStack(alignment: .leading) {
 
-                                ForEach(friendsData.friends.indices, id: \.self) { index in
+//                                ForEach(friendsData.friends.indices, id: \.self) { index in
+                                ForEach(friendsData.friends.indices.filter { searchText.isEmpty || friendsData.friends[$0].name.contains(searchText) }, id: \.self) { index in
                                     let friend = friendsData.friends[index]
                                     let amountOwed = (friend.totalRedPrice - friend.totalGreenPrice) / 2
                                     VStack{
@@ -214,6 +224,18 @@ struct ContentView:View {
     }
     
     
+}
+
+struct CustomTextField: View {
+    @Binding var text: String
+    var placeholder: Text
+
+    var body: some View {
+        ZStack(alignment: .leading) {
+            if text.isEmpty { placeholder }
+            TextField("", text: $text)
+        }
+    }
 }
 
 
