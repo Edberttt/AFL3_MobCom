@@ -13,6 +13,7 @@ struct Activity: Identifiable, Hashable {
 }
 
 import SwiftUI
+import Combine
 
 struct FriendDetails: View {
 //    @State private var activities: [Activity] = []
@@ -63,8 +64,7 @@ struct FriendDetails: View {
                     
                     Text(friend.name)
                         .font(Font.custom("Open Sans", size: 20).weight(.semibold))
-                        .frame(width: 50, height: 50)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(width: 200, height: 50, alignment: .leading)
                         .offset(x: -100, y: 0)
                 }
                 
@@ -128,6 +128,9 @@ struct FriendDetails: View {
                     isPresented: $showAddActivityPopup,
                     addActivity: { newActivity in
                         addActivity(activity: newActivity)
+                    },
+                    cancelAction: {
+                        showAddActivityPopup.toggle()
                     }
                 )
                 .transition(.scale)
@@ -182,11 +185,20 @@ struct AddActivityView: View {
     @State private var isPaying: Bool = true
     @Binding var isPresented: Bool
     var addActivity: (Activity) -> Void
-    
+    @State private var showAlert = false
+    @Environment(\.presentationMode) var presentationMode
+    var cancelAction: () -> Void
     
     var body: some View {
-        VStack(alignment: .center) {
-            
+        VStack(alignment: .leading) {
+            Image(systemName: "xmark.circle")
+                .font(.title)
+                .foregroundColor(.black)
+                .onTapGesture {
+                    cancelAction()
+                }
+                .padding(.bottom,5)
+                .padding(.leading,5)
             ZStack(alignment: .top) {
                 RoundedRectangle(cornerRadius: 30)
                     .foregroundColor(Color(hex: "8263D8"))
@@ -197,8 +209,11 @@ struct AddActivityView: View {
                     if let price = Double(activityPrice), !activityName.isEmpty {
                         let activity = Activity(name: activityName, price: isPaying ? -price : price, isPaying: isPaying)
                         addActivity(activity)
+                        isPresented = false
+                    } else {
+                        // Show an alert if text fields are not filled
+                        showAlert = true
                     }
-                    isPresented = false
                 }) {
                     Text("Add")
                         .font(Font.custom("Open Sans", size: 22).weight(.semibold))
@@ -257,6 +272,13 @@ struct AddActivityView: View {
                             TextField("Activity Price", text: $activityPrice)
                                 .padding(.vertical, 10)
                                 .padding(.leading, 18)
+                                .keyboardType(.numberPad)
+                                .onReceive(Just(activityPrice)) { newValue in
+                                    let filtered = newValue.filter { "0123456789".contains($0) }
+                                    if filtered != newValue {
+                                        self.activityPrice = filtered
+                                    }
+                                }
                         }
                         .padding()
                         
@@ -290,7 +312,11 @@ struct AddActivityView: View {
                 .padding()
             }
             Spacer()
-        } .padding(.top, 180)
+        } 
+        .padding(.top, 150)
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Incomplete Fields"), message: Text("Please Fill in All Fields"), dismissButton: .default(Text("OK")))
+        }
     }
 }
 
