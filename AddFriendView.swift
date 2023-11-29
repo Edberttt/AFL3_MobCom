@@ -94,18 +94,19 @@ struct AddFriendView: View {
                         .foregroundColor(.white)
                         .font(.headline)
                         .padding(.bottom)
+                        .padding(.horizontal)
                     
                     TextField("Enter friend's name", text: $textFieldText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .cornerRadius(12)
                         .padding(.bottom)
-                    
+                        .padding(.horizontal)
                     
                     Text("Transaction Frequency :")
                         .foregroundColor(.white)
                         .font(.headline)
                         .padding(.bottom)
-                    
+                        .padding(.horizontal)
                     
                     Picker(selection: $selectedFrequency, label: Text("Transaction Frequency :")) {
                         ForEach(frequencyOptions, id: \.self) { option in
@@ -117,11 +118,14 @@ struct AddFriendView: View {
                     .padding(.horizontal)
                     .background(RoundedRectangle(cornerRadius: 12).fill(Color.white))
                     .padding(.bottom,20)
+                    .padding(.horizontal)
                     
                     Text("Choose Your Friend's Avatar : ")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding(.bottom, 20)
+                        .padding(.horizontal)
+
                     LazyVGrid(columns: Array(repeating: GridItem(), count: 3), spacing: 8) {
                         ForEach(1...9, id: \.self) { index in let isSelected = selectedEmoji == index
                             ZStack {
@@ -149,6 +153,7 @@ struct AddFriendView: View {
                         }
                     }
                     .padding(.bottom, 60)
+                    .padding(.horizontal)
 
                     Button(action: {
                         if isAllInputSelected {
@@ -166,11 +171,11 @@ struct AddFriendView: View {
                     }) {
                         Text("Add Friend")
                             .frame(maxWidth: .infinity)
-                            .frame(height: 35)
+                            .frame(height: 50)
                             .font(.title3)
                     }
                     .background(Color("8263D8"))
-                    .cornerRadius(8)
+                    .cornerRadius(28)
                     .foregroundColor(.white)
                     .padding(.horizontal)
                     .alert(isPresented: $showAlert) {
@@ -218,8 +223,9 @@ struct AddFriendView: View {
         }
     }
 }
-
+//
 //#Preview {
 //    AddFriendView()
 //}
-
+//
+//
