@@ -75,6 +75,7 @@ struct ContentView:View {
                     .font(Font.custom("Open Sans", size: 36).weight(.semibold))
                     .foregroundColor(.black)
                     .offset(x: -40, y: 12)
+                    .padding(.leading,20)
                 }
                 .offset(x: -37, y: -294.50)
                 ZStack() {
@@ -109,6 +110,7 @@ struct ContentView:View {
                     .font(Font.custom("Open Sans", size: 20).weight(.semibold))
                     .foregroundColor(.black)
                     .offset(x: -32, y: 12)
+                    .padding(.leading,20)
                 }
                 .offset(x: -79.50, y: -217.50)
                 Rectangle()
@@ -266,6 +268,7 @@ struct ContentView:View {
         .frame(width: 430, height: 1200)
         .background(.white)
         .padding(.top, 100)
+        .navigationBarBackButtonHidden(true)
     }
     
     func deleteFriend(at offsets: IndexSet) {

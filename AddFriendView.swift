@@ -42,6 +42,7 @@ struct AddFriendView: View {
     @State private var selectedEmoji: Int?
     @State private var showAlert = false
     @State private var textFieldText: String = ""
+    @State private var navigateToContentView = false
 //    @State private var showEmptyFieldsAlert = false
     
     @State private var isButtonBack = false
@@ -53,6 +54,7 @@ struct AddFriendView: View {
 //    @Binding var shouldDismissView: Bool
     @EnvironmentObject var friendsData: FriendsData
     @Environment(\.presentationMode) var presentationMode
+    @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = false
     
     @State private var alertType: AlertType = .none
 
@@ -69,163 +71,177 @@ struct AddFriendView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            Color("051329")
-                .ignoresSafeArea()
-            
-            VStack(alignment: .leading, spacing: 35) {
-                HStack(spacing: 20) {
-                    Image(systemName: "arrowshape.turn.up.backward.circle")
-                        .font(.title)
-                        .foregroundColor(.white)
-                        .onTapGesture {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    
-                    Text("Add New Friend")
-                        .foregroundColor(Color("8263D8"))
-                        .font(.title)
-                }
-                .padding(.horizontal, 20)
-                .padding(.top)
+        NavigationView {
+            ZStack(alignment: .topLeading) {
+                Color("051329")
+                    .ignoresSafeArea()
                 
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Friend Name :")
-                        .foregroundColor(.white)
-                        .font(.headline)
-                        .padding(.bottom, 0)
-                        .padding(.horizontal)
-                    
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.white)
-                            .shadow(radius: 2)
-                            .frame(width: 350, height: 35)
-                            .padding(.leading, 20)
-                        
-                        TextField("Enter friend's name", text: $textFieldText)
-                            .padding(.vertical, 10)
-                            .padding(.leading, 35)
-                    }.padding(.bottom,15)
-//                    TextField("Enter friend's name", text: $textFieldText)
-//                        .textFieldStyle(RoundedBorderTextFieldStyle())
-//                        .cornerRadius(15)
-//                        .padding(.bottom)
-//                        .padding(.horizontal,10)
-//                        .padding(.leading,15)
-                    
-                    Text("Transaction Frequency :")
-                        .foregroundColor(.white)
-                        .font(.headline)
-                        .padding(.bottom,0)
-                        .padding(.horizontal)
-                    
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(Color.white)
-                            .shadow(radius: 2)
-                            .frame(width: 350, height: 35)
-                            .padding(.leading, 20)
-                        
-                        Picker(selection: $selectedFrequency, label: Text("Transaction Frequency :")) {
-                            ForEach(frequencyOptions, id: \.self) { option in
-                                Text(option)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        .padding(.leading,35)
-                    }.padding(.bottom,20)
-                    
-                    
-                    
-                    Text("Choose Your Friend's Avatar : ")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding(.bottom, 10)
-                        .padding(.horizontal)
-
-                    LazyVGrid(columns: Array(repeating: GridItem(), count: 3), spacing: 8) {
-                        ForEach(1...9, id: \.self) { index in let isSelected = selectedEmoji == index
-                            ZStack {
-                                Image("emoji\(index)")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 80, height: 80)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke(Color.white, lineWidth: 3))
-                                    .padding(5)
-                                    .onTapGesture {
-                                        if isSelected {
-                                            selectedEmoji = nil
-                                        } else {
-                                            selectedEmoji = index
-                                        }
-                                    }
-                                if isSelected {
-                                    Circle()
-                                        .stroke(Color("8263D8"), lineWidth: 7)
-                                        .frame(width: 90, height: 90)
-                                }
-                                
-                            }
-                        }
-                    }
-                    .padding(.bottom, 60)
-                    .padding(.horizontal)
-
-                    Button(action: {
-                        if isAllInputSelected {
-//                            let newFriend = Friend(name: textFieldText, frequency: selectedFrequency, avatar: selectedEmoji!)
-                            let newFriend = Friend(name: textFieldText, frequency: selectedFrequency, avatar: selectedEmoji!, activities: [], totalRedPrice:0, totalGreenPrice:0)
-//                            friends.append(newFriend)
-                            friendsData.friends.append(newFriend)
-                            alertType = .success
-                            showAlert = true
-//                            shouldDismissView = true
+                VStack(alignment: .leading, spacing: 35) {
+                    HStack(spacing: 20) {
+                        if isFirstLaunch {
+                            Text("Add New Friend")
+                                .foregroundColor(Color("8263D8"))
+                                .font(.title)
                         } else {
-                            alertType = .failure
-                            showAlert = true
+                            Text("Your Friend's Data")
+                                .foregroundColor(Color("8263D8"))
+                                .font(.title)
                         }
-                    }) {
-                        Text("Add Friend")
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .font(.title3)
+                        
                     }
-                    .background(Color("8263D8"))
-                    .cornerRadius(28)
-                    .foregroundColor(.white)
-                    .padding(.horizontal)
-                    .alert(isPresented: $showAlert) {
-                        switch alertType {
-                        case .success:
-                            return Alert(
-                                title: Text("New Friend Has Been Added!"),
-                                message: nil,
-                                dismissButton: .default(Text("OK")) {
-//                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                                        shouldDismissView = true
-//                                        presentationMode.wrappedValue.dismiss()
-//                                    }
-//                                    shouldDismissView = true
-                                    presentationMode.wrappedValue.dismiss()
+                    .padding(.horizontal, 20)
+                    .padding(.top)
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Friend Name :")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                            .padding(.bottom, 0)
+                            .padding(.horizontal)
+                        
+                        ZStack(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundColor(Color.white)
+                                .shadow(radius: 2)
+                                .frame(width: 350, height: 35)
+                                .padding(.leading, 20)
+                            
+                            TextField("Enter friend's name", text: $textFieldText)
+                                .padding(.vertical, 10)
+                                .padding(.leading, 35)
+                        }.padding(.bottom,15)
+                        //                    TextField("Enter friend's name", text: $textFieldText)
+                        //                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        //                        .cornerRadius(15)
+                        //                        .padding(.bottom)
+                        //                        .padding(.horizontal,10)
+                        //                        .padding(.leading,15)
+                        
+                        Text("Transaction Frequency :")
+                            .foregroundColor(.white)
+                            .font(.headline)
+                            .padding(.bottom,0)
+                            .padding(.horizontal)
+                        
+                        ZStack(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundColor(Color.white)
+                                .shadow(radius: 2)
+                                .frame(width: 350, height: 35)
+                                .padding(.leading, 20)
+                            
+                            Picker(selection: $selectedFrequency, label: Text("Transaction Frequency :")) {
+                                ForEach(frequencyOptions, id: \.self) { option in
+                                    Text(option)
+                                }
+                            }
+                            .pickerStyle(MenuPickerStyle())
+                            .padding(.leading,35)
+                        }.padding(.bottom,20)
+                        
+                        
+                        
+                        Text("Choose Your Friend's Avatar : ")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding(.bottom, 10)
+                            .padding(.horizontal)
+                        
+                        LazyVGrid(columns: Array(repeating: GridItem(), count: 3), spacing: 8) {
+                            ForEach(1...9, id: \.self) { index in let isSelected = selectedEmoji == index
+                                ZStack {
+                                    Image("emoji\(index)")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 80, height: 80)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(Color.white, lineWidth: 3))
+                                        .padding(5)
+                                        .onTapGesture {
+                                            if isSelected {
+                                                selectedEmoji = nil
+                                            } else {
+                                                selectedEmoji = index
+                                            }
+                                        }
+                                    if isSelected {
+                                        Circle()
+                                            .stroke(Color("8263D8"), lineWidth: 7)
+                                            .frame(width: 90, height: 90)
+                                    }
                                     
                                 }
-                            )
-                        case .failure:
-                            return Alert(
-                                title: Text("Please Fill in All Fields"),
-                                message: nil,
-                                dismissButton: .default(Text("OK"))
-                            )
-                        default:
-                            return Alert(title: Text(""))
+                            }
+                        }
+                        .padding(.bottom, 60)
+                        .padding(.horizontal)
+                        
+                        Button(action: {
+                            if isAllInputSelected {
+                                //                            let newFriend = Friend(name: textFieldText, frequency: selectedFrequency, avatar: selectedEmoji!)
+                                let newFriend = Friend(name: textFieldText, frequency: selectedFrequency, avatar: selectedEmoji!, activities: [], totalRedPrice:0, totalGreenPrice:0)
+                                //                            friends.append(newFriend)
+                                friendsData.friends.append(newFriend)
+                                alertType = .success
+                                showAlert = true
+                                //                            shouldDismissView = true
+                            } else {
+                                alertType = .failure
+                                showAlert = true
+                            }
+                        }) {
+                            Text("Add Friend")
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 50)
+                                .font(.title3)
+                        }
+                        .background(Color("8263D8"))
+                        .cornerRadius(28)
+                        .foregroundColor(.white)
+                        .padding(.horizontal)
+                        .alert(isPresented: $showAlert) {
+                            switch alertType {
+                            case .success:
+                                return Alert(
+                                    title: Text("New Friend Has Been Added!"),
+                                    message: nil,
+                                    dismissButton: .default(Text("OK")) {
+                                        if isFirstLaunch {
+                                            navigateToContentView = true
+                                            isFirstLaunch = true
+                                        } else {
+                                            presentationMode.wrappedValue.dismiss()
+                                        }
+                                        
+                                        
+                                    }
+                                )
+                            case .failure:
+                                return Alert(
+                                    title: Text("Please Fill in All Fields"),
+                                    message: nil,
+                                    dismissButton: .default(Text("OK"))
+                                )
+                            default:
+                                return Alert(title: Text(""))
+                            }
+                        }
+                        NavigationLink(
+                            destination: ContentView(),
+                            isActive: $navigateToContentView
+                        ) {
+                            EmptyView()
+                        }
+                        .hidden()
+                        .onAppear {
+                            // Reset the state to prevent continuous navigation
+                            navigateToContentView = false
                         }
                     }
                 }
             }
         }
-        
+        .navigationBarHidden(true)
     }
 //    struct AddFriendView_Previews: PreviewProvider {
 //        static var previews: some View {

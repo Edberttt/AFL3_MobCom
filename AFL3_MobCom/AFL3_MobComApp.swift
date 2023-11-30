@@ -42,12 +42,19 @@ class FriendsData: ObservableObject {
 
 @main
 struct AFL3App: App {
+    @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = false
     @StateObject private var friendsData = FriendsData()
-
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(friendsData)
+            if isFirstLaunch {
+                ContentView()
+                    .environmentObject(friendsData)
+                
+            } else {
+                FirstPage()
+                    .environmentObject(friendsData)
+            }
         }
     }
 }
