@@ -21,6 +21,9 @@ struct ContentView:View {
     @State private var searchText = ""
     @EnvironmentObject var friendsData: FriendsData
     
+    @State private var showAlert = false
+    @State private var friendIndexToDelete: Int?
+    
     var countTotalFriendsYouOwe: Int {
         friendsData.friends.reduce(0) { total, friend in
             let amountOwed = (friend.totalRedPrice - friend.totalGreenPrice) / 2
@@ -150,13 +153,24 @@ struct ContentView:View {
                                     VStack{
                                         HStack{
                                             Button(action: {
-                                                withAnimation {
-                                                    friendsData.removeFriend(at: index)
-                                                }
-                                            }) {
-                                                Image(systemName: "trash")
-                                                    .foregroundColor(.red)
-                                            }
+                                                            showAlert = true
+                                                        }) {
+                                                            Image(systemName: "trash")
+                                                                .foregroundColor(.red)
+                                                        }
+                                                        .alert(isPresented: $showAlert) {
+                                                            Alert(
+                                                                title: Text("Are you sure?"),
+                                                                message: Text("Do you want to delete this friend?"),
+                                                                primaryButton: .destructive(Text("Delete")) {
+                                                                        withAnimation {
+                                                                            friendsData.removeFriend(at: index)
+                                                                        }
+                                                                },
+                                                                secondaryButton: .cancel()
+                                                            )
+                                                        }
+                                            
                                         
                                             Image("emoji\(friend.avatar)") // Make sure you have images named like "emoji1", "emoji2", etc.
                                                 .resizable()
