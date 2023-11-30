@@ -74,11 +74,22 @@ struct FriendDetails: View {
                         .foregroundColor(.gray)
                         .padding(.leading, 20)
 
-                    Text("IDR \(abs(calculateAmountOwed()), specifier: "%.2f")")
-                        .font(.system(size: 40))
-                        .foregroundColor(.black)
-                        .padding(.top, 2) // Adjust top padding if needed
-                        .padding(.leading, 20)
+//                    Text("IDR \(abs(calculateAmountOwed()), specifier: "%.2f")")
+//                        .font(.system(size: 40))
+//                        .foregroundColor(.black)
+//                        .padding(.top, 2) // Adjust top padding if needed
+//                        .padding(.leading, 20)
+                    Text(abs(calculateAmountOwed()) >= 1_000_000_000_000 ?
+                         "IDR \(abs(calculateAmountOwed()) / 1_000_000_000_000, specifier: "%.2f")T" :
+                            abs(calculateAmountOwed()) >= 1_000_000_000 ?
+                         "IDR \(abs(calculateAmountOwed()) / 1_000_000_000, specifier: "%.2f")B" :
+                            abs(calculateAmountOwed()) >= 1_000_000 ?
+                         "IDR \(abs(calculateAmountOwed()) / 1_000_000, specifier: "%.2f")M" :
+                            "IDR \(abs(calculateAmountOwed()), specifier: "%.2f")")
+                    .font(.system(size: 40))
+                    .foregroundColor(.black)
+                    .padding(.top, 2) // Adjust top padding if needed
+                    .padding(.leading, 20)
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)

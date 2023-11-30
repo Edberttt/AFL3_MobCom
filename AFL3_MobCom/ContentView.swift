@@ -61,10 +61,20 @@ struct ContentView:View {
                         .foregroundColor(Color(red: 0.56, green: 0.54, blue: 0.54).opacity(0.90))
                         .offset(x: -59, y: -26.50)
                     
-                    Text("IDR \(abs(totalFriendsAmountYouOwe), specifier: "%.2f")")
-                        .font(Font.custom("Open Sans", size: 36).weight(.semibold))
-                        .foregroundColor(.black)
-                        .offset(x: -40, y: 12)
+//                    Text("IDR \(abs(totalFriendsAmountYouOwe), specifier: "%.2f")")
+//                        .font(Font.custom("Open Sans", size: 36).weight(.semibold))
+//                        .foregroundColor(.black)
+//                        .offset(x: -40, y: 12)
+                    Text(abs(totalFriendsAmountYouOwe) >= 1_000_000_000_000 ?
+                         "IDR \(abs(totalFriendsAmountYouOwe) / 1_000_000_000_000, specifier: "%.2f")T" :
+                            abs(totalFriendsAmountYouOwe) >= 1_000_000_000 ?
+                         "IDR \(abs(totalFriendsAmountYouOwe) / 1_000_000_000, specifier: "%.3f")B" :
+                            abs(totalFriendsAmountYouOwe) >= 1_000_000 ?
+                         "IDR \(abs(totalFriendsAmountYouOwe) / 1_000_000, specifier: "%.2f")M" :
+                            "IDR \(abs(totalFriendsAmountYouOwe), specifier: "%.2f")")
+                    .font(Font.custom("Open Sans", size: 36).weight(.semibold))
+                    .foregroundColor(.black)
+                    .offset(x: -40, y: 12)
                 }
                 .offset(x: -37, y: -294.50)
                 ZStack() {
@@ -85,10 +95,20 @@ struct ContentView:View {
                         .font(Font.custom("Open Sans", size: 13).weight(.semibold))
                         .foregroundColor(Color(red: 0.56, green: 0.54, blue: 0.54).opacity(0.90))
                         .offset(x: 0, y: -16.50)
-                    Text("IDR \(abs(totalFriendsOwe), specifier: "%.2f")")
-                        .font(Font.custom("Open Sans", size: 20).weight(.semibold))
-                        .foregroundColor(.black)
-                        .offset(x: -32, y: 12)
+//                    Text("IDR \(abs(totalFriendsOwe), specifier: "%.2f")")
+//                        .font(Font.custom("Open Sans", size: 20).weight(.semibold))
+//                        .foregroundColor(.black)
+//                        .offset(x: -32, y: 12)
+                    Text(abs(totalFriendsOwe) >= 1_000_000_000_000 ?
+                         "IDR \(abs(totalFriendsOwe) / 1_000_000_000_000, specifier: "%.2f")T" :
+                            abs(totalFriendsOwe) >= 1_000_000_000 ?
+                         "IDR \(abs(totalFriendsOwe) / 1_000_000_000, specifier: "%.2f")B" :
+                            abs(totalFriendsOwe) >= 1_000_000 ?
+                         "IDR \(abs(totalFriendsOwe) / 1_000_000, specifier: "%.2f")M" :
+                            "IDR \(abs(totalFriendsOwe), specifier: "%.2f")")
+                    .font(Font.custom("Open Sans", size: 20).weight(.semibold))
+                    .foregroundColor(.black)
+                    .offset(x: -32, y: 12)
                 }
                 .offset(x: -79.50, y: -217.50)
                 Rectangle()
