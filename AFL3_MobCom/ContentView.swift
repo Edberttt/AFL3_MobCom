@@ -74,7 +74,7 @@ struct ContentView:View {
                             "IDR \(abs(totalFriendsAmountYouOwe), specifier: "%.2f")")
                     .font(Font.custom("Open Sans", size: 36).weight(.semibold))
                     .foregroundColor(.black)
-                    .offset(x: -40, y: 12)
+                    .offset(x: -20, y: 12)
                     .padding(.leading,20)
                 }
                 .offset(x: -37, y: -294.50)
