@@ -43,6 +43,7 @@ struct AddFriendView: View {
     @State private var showAlert = false
     @State private var textFieldText: String = ""
     @State private var navigateToContentView = false
+    @State private var selesai = false
 //    @State private var showEmptyFieldsAlert = false
     
     @State private var isButtonBack = false
@@ -207,10 +208,10 @@ struct AddFriendView: View {
                                     message: nil,
                                     dismissButton: .default(Text("OK")) {
                                         if isFirstLaunch {
+                                            presentationMode.wrappedValue.dismiss()
+                                        } else {
                                             navigateToContentView = true
                                             isFirstLaunch = true
-                                        } else {
-                                            presentationMode.wrappedValue.dismiss()
                                         }
                                         
                                         
@@ -226,18 +227,26 @@ struct AddFriendView: View {
                                 return Alert(title: Text(""))
                             }
                         }
-                        NavigationLink(
-                            destination: ContentView(),
-                            isActive: $navigateToContentView
-                        ) {
-                            EmptyView()
+
+                            NavigationLink(
+                                destination: ContentView(),
+                                isActive: $navigateToContentView
+                                
+                            ) {
+                                EmptyView()
+                            }
+                            .hidden()
+                            
+                            
+                            .onAppear {
+                                // Reset the state to prevent continuous navigation
+                                
+                                navigateToContentView = false
+//                                ContentView()
+                            }
+
                         }
-                        .hidden()
-                        .onAppear {
-                            // Reset the state to prevent continuous navigation
-                            navigateToContentView = false
-                        }
-                    }
+                    
                 }
             }
         }

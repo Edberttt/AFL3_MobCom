@@ -54,6 +54,11 @@ struct AFL3App: App {
             } else {
                 FirstPage()
                     .environmentObject(friendsData)
+                    .onDisappear {
+                        // Set isFirstLaunch to false when FirstPage is dismissed
+                        isFirstLaunch = true
+                    }
+                
             }
         }
     }
